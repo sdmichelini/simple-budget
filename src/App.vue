@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <nav class="nav">
+      <a class="nav-link" href="#">Budget</a>
+      <a class="nav-link" href="#">Categories</a>
+      <a class="nav-link" href="#">Expenses</a>
+    </nav>
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -13,11 +19,22 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.nav {
+  background-color: #388E3C;
+  height: 50px;
+  font-size: 18px;
+}
+
+.nav-link {
+  color: white;
+}
+
+.nav-link:hover {
+  color: white;
+  background-color: #2E7D32;
 }
 </style>
