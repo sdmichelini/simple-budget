@@ -2,15 +2,21 @@
     <div id='budget'>
         <h1>Budget</h1>
         <h2>Income</h2>
+        <div class="list-group">
+            <template v-for="item in $store.state.incomeItems">
+                <budget-item v-bind:item="item"></budget-item>
+            </template>
+        </div>
         <h2>Expenses</h2>
         <div class="list-group">
-            <template v-for="item in expenseItems">
+            <template v-for="item in $store.state.expenseItems">
                 <budget-item v-bind:item="item"></budget-item>
             </template>
         </div>
     </div>
 </template>
 <script>
+
 export default {
   name: 'budget',
   data: () => {
