@@ -1,7 +1,7 @@
 <template>
     <div id='budget'>
-        <h1>Budget</h1>
-        <h2>Income</h2>
+        <h1>Budget - ${{ $store.getters.netMoney }}</h1>
+        <h2>Income - ${{ $store.getters.aggregateIncome }}</h2>
         <div class="list-group">
             <template v-for="item in $store.state.incomeItems">
                 <budget-item v-bind:item="item"></budget-item>
@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-success" v-if="!createNewIncome" v-on:click="onCreateIncome()">
           Create New Income Item
         </button>
-        <h2>Expenses</h2>
+        <h2>Expenses - ${{ $store.getters.aggregateExpenses }}</h2>
         <div class="list-group">
             <template v-for="item in $store.state.expenseItems">
                 <budget-item v-bind:item="item"></budget-item>

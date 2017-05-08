@@ -38,7 +38,23 @@ const actions = {
 }
 
 const getters = {
-
+  aggregateIncome: state => {
+    let sum = 0.0
+    state.incomeItems.map(item => {
+      sum += Number(item.amount)
+    })
+    return sum
+  },
+  aggregateExpenses: state => {
+    let sum = 0.0
+    state.expenseItems.map(item => {
+      sum += Number(item.amount)
+    })
+    return sum
+  },
+  netMoney: (state, getters) => {
+    return getters.aggregateIncome - getters.aggregateExpenses
+  }
 }
 
 export default new Vuex.Store({
