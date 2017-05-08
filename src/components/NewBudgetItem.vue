@@ -1,7 +1,7 @@
 <template>
   <div id='new-budget'>
     <div class="row">
-      <h2>Create New Expense</h2>
+      <h2>Create New {{ getTypeString() }}</h2>
       <button type="button" class="btn btn-danger" v-on:click="dismiss()">
         <i class="fa fa-times fa-lg" aria-hidden="true"></i>
       </button>
@@ -9,7 +9,7 @@
     <div class="form-group row">
       <label for="expense-name-input" class="col-2 col-form-label">Name</label>
       <div class="col-10">
-        <input class="form-control" v-model="name" type="text" placeholder="Enter Expense Name" id="expense-name-input">
+        <input class="form-control" v-model="name" type="text" :placeholder=getTypeString() id="expense-name-input">
       </div>
     </div>
     <div class="form-group row">
@@ -29,7 +29,9 @@
       </div>
     </div>
     <div class="form-group row">
-      <button type="button" class="btn btn-success" :disabled="!inputValid()" v-on:click="createNewExpense()">Create Expense</button>
+      <button type="button" class="btn btn-success" :disabled="!inputValid()" v-on:click="createNewExpense()">
+        Create {{ getTypeString() }}
+      </button>
     </div>
   </div>
 </template>
@@ -45,9 +47,11 @@ export default {
       selected: 'Housing'
     }
   },
+  props: ['isExpense'],
   methods: {
     ...mapActions([
-      'addExpenseItem'
+      'addExpenseItem',
+      'addIncomeItem'
     ]),
     inputValid () {
       return (this.name !== undefined) &&
@@ -61,10 +65,21 @@ export default {
         amount: this.amount,
         category: this.selected
       }
-      this.addExpenseItem(item)
+      if (this.isExpense === 'true') {
+        this.addExpenseItem(item)
+      } else {
+        this.addIncomeItem(item)
+      }
     },
     dismiss () {
       this.$emit('close')
+    },
+    getTypeString () {
+      if (this.isExpense === 'true') {
+        return 'Expense'
+      } else {
+        return 'Income'
+      }
     }
   }
 }
