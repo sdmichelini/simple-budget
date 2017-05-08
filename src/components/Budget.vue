@@ -13,7 +13,8 @@
                 <budget-item v-bind:item="item"></budget-item>
             </template>
         </div>
-        <new-budget-item></new-budget-item>
+        <new-budget-item v-if="createNewExpense" v-on:close="closeExpense()"></new-budget-item>
+        <button type="button" class="btn btn-success" v-if="!createNewExpense" v-on:click="onCreateExpense()">Create New Expense</button>
     </div>
 </template>
 <script>
@@ -22,10 +23,15 @@ export default {
   name: 'budget',
   data: () => {
     return {
-      expenseItems: [
-          {name: 'Apartment', amount: 1400.0, category: 'Housing'},
-          {name: 'Car Payment', amount: 400.0, category: 'Car'}
-      ]
+      createNewExpense: false
+    }
+  },
+  methods: {
+    onCreateExpense () {
+      this.createNewExpense = true
+    },
+    closeExpense () {
+      this.createNewExpense = false
     }
   }
 }

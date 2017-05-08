@@ -1,6 +1,11 @@
 <template>
   <div id='new-budget'>
-    <h2>Create New Expense</h2>
+    <div class="row">
+      <h2>Create New Expense</h2>
+      <button type="button" class="btn btn-danger" v-on:click="dismiss()">
+        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+      </button>
+    </div>
     <div class="form-group row">
       <label for="expense-name-input" class="col-2 col-form-label">Name</label>
       <div class="col-10">
@@ -57,10 +62,29 @@ export default {
         category: this.selected
       }
       this.addExpenseItem(item)
+    },
+    dismiss () {
+      this.$emit('close')
     }
   }
 }
 </script>
-<style>
+<style scoped>
+h2 {
+  display: inline;
+}
 
+.btn-danger {
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+#new-budget {
+  margin-top: 10px;
+  margin-left: 16px;
+}
+
+.row {
+  margin-top: 10px;
+}
 </style>
