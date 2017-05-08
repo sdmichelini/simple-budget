@@ -3,13 +3,48 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+let nextId = 0
+
+function makeGenericItem (name, amount, category) {
+  return {name: name, amount: amount, category: category, type: 0, id: nextId++}
+}
+
+function makeCalculatedPercentageItem (name, percentage, category, calculationId) {
+  return {name: name, category: category, type: 1, id: nextId++, percentage: percentage, calculationId: calculationId}
+}
+
+function getAmountForItemR (item, allItems, visitedIds) {
+  if (item.type === 0) {
+    return item.amount
+  }
+  // Circular Reference Error Check
+  if (visitedIds.includes(item.id)) {
+    return NaN
+  } else {
+    let checkItem
+    for (let item1 of allItems) {
+      if (item1.id === item.calculationId) {
+        checkItem = item1
+        break
+      }
+    }
+    // Could we find the item?
+    if (checkItem !== undefined) {
+      return item.percentage * getAmountForItemR(checkItem, allItems, visitedIds.concat(item.id))
+    } else {
+      return NaN
+    }
+  }
+}
+
 const state = {
   expenseItems: [
-    {name: 'Apartment', amount: 1400.0, category: 'Housing'},
-    {name: 'Car Payment', amount: 400.0, category: 'Car'}
+    makeGenericItem('Apartment', 1400.00, 'Housing'),
+    makeGenericItem('Car Payment', 400.00, 'Car'),
+    makeCalculatedPercentageItem('Savings', 0.2, 'Savings', 0)
   ],
   incomeItems: [
-    {name: 'Salary', amount: 4000.0, category: 'Salary'}
+    makeGenericItem('Salary', 4000.00, 'Salary')
   ],
   categories: [
     'Housing',
@@ -38,17 +73,24 @@ const actions = {
 }
 
 const getters = {
-  aggregateIncome: state => {
+  getAmountForItem: (state, getters) => (item) => {
+    let amount = Number(getAmountForItemR(item, state.incomeItems.concat(state.expenseItems), []))
+    if (amount.isNaN) {
+      amount = 0.0
+    }
+    return amount
+  },
+  aggregateIncome: (state, getters) => {
     let sum = 0.0
     state.incomeItems.map(item => {
-      sum += Number(item.amount)
+      sum += Number(getters.getAmountForItem(item, state))
     })
     return sum
   },
-  aggregateExpenses: state => {
+  aggregateExpenses: (state, getters) => {
     let sum = 0.0
     state.expenseItems.map(item => {
-      sum += Number(item.amount)
+      sum += Number(getters.getAmountForItem(item, state))
     })
     return sum
   },

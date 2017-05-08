@@ -1,7 +1,7 @@
 <template>
     <li class="list-group-item">
       <strong>{{ item.name }}</strong>  - {{ item.category }}
-      <div id="amount">${{ item.amount }}</div>
+      <div id="amount">${{ $store.getters.getAmountForItem(item) }}</div>
     </li>
 </template>
 <script>
