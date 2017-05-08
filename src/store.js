@@ -10,6 +10,12 @@ const state = {
   ],
   incomeItems: [
     {name: 'Salary', amount: 4000.0, category: 'Salary'}
+  ],
+  categories: [
+    'Housing',
+    'Savings',
+    'Car',
+    'Salary'
   ]
 }
 

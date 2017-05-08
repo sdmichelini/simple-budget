@@ -6,10 +6,12 @@ import router from './router'
 import store from './store'
 
 import BudgetItem from './components/BudgetItem.vue'
+import NewBudgetItem from './components/NewBudgetItem.vue'
 
 Vue.config.productionTip = false
 
 Vue.component('budget-item', BudgetItem)
+Vue.component('new-budget-item', NewBudgetItem)
 
 /* eslint-disable no-new */
 new Vue({

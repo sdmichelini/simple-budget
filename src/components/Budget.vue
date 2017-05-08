@@ -13,6 +13,7 @@
                 <budget-item v-bind:item="item"></budget-item>
             </template>
         </div>
+        <new-budget-item></new-budget-item>
     </div>
 </template>
 <script>
