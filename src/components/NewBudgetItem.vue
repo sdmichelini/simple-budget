@@ -22,8 +22,20 @@
       </select>
       </div>
     </div>
+    <label>Type of {{ getTypeString() }}</label>
+    <hr>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" type="radio" v-model="picked" name="inlineRadioOptions" id="inlineRadio1" value="fixed"> Fixed
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input class="form-check-input" type="radio" v-model="picked" name="inlineRadioOptions" id="inlineRadio2" value="percent"> Percentage of Other Item
+      </label>
+    </div>
     <!---Strategy goes here-->
-    <fixed-budget-item v-on:item="itemChange"></fixed-budget-item>
+    <fixed-budget-item v-on:item="itemChange" v-if="isFixed()"></fixed-budget-item>
     <div class="form-group row">
       <button type="button" class="btn btn-success" :disabled="!inputValid()" v-on:click="createNewExpense()">
       Create {{ getTypeString() }}
@@ -41,7 +53,8 @@ export default {
       name: '',
       item: undefined,
       selected: 'Housing',
-      isInputValid: false
+      isInputValid: false,
+      picked: ''
     }
   },
   props: ['isExpense'],
@@ -50,6 +63,9 @@ export default {
       'addExpenseItem',
       'addIncomeItem'
     ]),
+    isFixed () {
+      return this.picked === 'fixed'
+    },
     inputValid () {
       return this.isInputValid && (this.name.length > 0)
     },
@@ -95,5 +111,10 @@ h2 {
 
 .row {
   margin-top: 10px;
+}
+
+label {
+  font-size: 120%;
+  font-weight: 600;
 }
 </style>
