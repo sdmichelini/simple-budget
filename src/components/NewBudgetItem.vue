@@ -12,25 +12,21 @@
         <input class="form-control" v-model="name" type="text" :placeholder=getTypeString() id="expense-name-input">
       </div>
     </div>
-    <div class="form-group row">
-      <label for="expense-amount-input" class="col-2 col-form-label">Amount</label>
-      <div class="col-10">
-        <input class="form-control" step='0.01' v-model="amount" type="number" id="expense-amount-input">
-      </div>
-    </div>
     <div class='form-group row'>
       <label for="expense-category-input" class="col-2 col-form-label">Category</label>
       <div class="col-10">
-        <select v-model="selected" class="form-control">
-          <option v-for="option in $store.state.categories" v-bind:value="option">
-            {{ option }}
-          </option>
-        </select>
+      <select v-model="selected" class="form-control">
+        <option v-for="option in $store.state.categories" v-bind:value="option">
+        {{ option }}
+        </option>
+      </select>
       </div>
     </div>
+    <!---Strategy goes here-->
+    <fixed-budget-item v-on:item="itemChange"></fixed-budget-item>
     <div class="form-group row">
       <button type="button" class="btn btn-success" :disabled="!inputValid()" v-on:click="createNewExpense()">
-        Create {{ getTypeString() }}
+      Create {{ getTypeString() }}
       </button>
     </div>
   </div>
@@ -43,8 +39,9 @@ export default {
   data: () => {
     return {
       name: '',
-      amount: 0.0,
-      selected: 'Housing'
+      item: undefined,
+      selected: 'Housing',
+      isInputValid: false
     }
   },
   props: ['isExpense'],
@@ -54,21 +51,14 @@ export default {
       'addIncomeItem'
     ]),
     inputValid () {
-      return (this.name !== undefined) &&
-            (this.name.length > 0) &&
-            (this.amount > 0.0) &&
-            (this.selected !== '')
+      return this.isInputValid && (this.name.length > 0)
     },
     createNewExpense () {
-      const item = {
-        name: this.name,
-        amount: this.amount,
-        category: this.selected
-      }
+      const newItem = Object.assign({}, this.item, { name: this.name, category: this.selected })
       if (this.isExpense === 'true') {
-        this.addExpenseItem(item)
+        this.addExpenseItem(newItem)
       } else {
-        this.addIncomeItem(item)
+        this.addIncomeItem(newItem)
       }
     },
     dismiss () {
@@ -80,6 +70,10 @@ export default {
       } else {
         return 'Income'
       }
+    },
+    itemChange (item, isValid) {
+      this.isInputValid = isValid
+      this.item = item
     }
   }
 }
