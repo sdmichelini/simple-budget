@@ -36,6 +36,7 @@
     </div>
     <!---Strategy goes here-->
     <fixed-budget-item v-on:item="itemChange" v-if="isFixed()"></fixed-budget-item>
+    <percentage-budget-item v-on:item="itemChange" v-if="isPercentage()"></percentage-budget-item>
     <div class="form-group row">
       <button type="button" class="btn btn-success" :disabled="!inputValid()" v-on:click="createNewExpense()">
       Create {{ getTypeString() }}
@@ -65,6 +66,9 @@ export default {
     ]),
     isFixed () {
       return this.picked === 'fixed'
+    },
+    isPercentage () {
+      return this.picked === 'percent'
     },
     inputValid () {
       return this.isInputValid && (this.name.length > 0)

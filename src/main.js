@@ -8,12 +8,14 @@ import store from './store'
 import BudgetItem from './components/BudgetItem.vue'
 import NewBudgetItem from './components/NewBudgetItem.vue'
 import NewFixedItemStrategy from './components/NewFixedItemStrategy.vue'
+import NewPercentageItemStrategy from './components/NewPercentageItemStrategy.vue'
 
 Vue.config.productionTip = false
 
 Vue.component('budget-item', BudgetItem)
 Vue.component('new-budget-item', NewBudgetItem)
 Vue.component('fixed-budget-item', NewFixedItemStrategy)
+Vue.component('percentage-budget-item', NewPercentageItemStrategy)
 
 /* eslint-disable no-new */
 new Vue({

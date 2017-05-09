@@ -56,9 +56,15 @@ const state = {
 
 const mutations = {
   addIncomeItem (state, item) {
+    if (item.id === undefined) {
+      item.id = nextId++
+    }
     state.incomeItems.push(item)
   },
   addExpenseItem (state, item) {
+    if (item.id === undefined) {
+      item.id = nextId++
+    }
     state.expenseItems.push(item)
   }
 }
@@ -96,6 +102,9 @@ const getters = {
   },
   netMoney: (state, getters) => {
     return getters.aggregateIncome - getters.aggregateExpenses
+  },
+  allItems: (state) => {
+    return state.incomeItems.concat(state.expenseItems)
   }
 }
 
