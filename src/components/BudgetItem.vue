@@ -96,6 +96,7 @@ export default {
     updateItem2 () {
       const newItem = Object.assign({}, this.item1, { name: this.name, category: this.category, id: this.item.id })
       this.updateItem(newItem)
+      this.editMode = false
     }
   },
   name: 'budget-item'
