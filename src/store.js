@@ -73,7 +73,7 @@ const mutations = {
     for (let item1 of allItems) {
       if (item1.id === item.id) {
         console.log(item1)
-        item1 = Object.assign({}, item)
+        item1 = Object.assign(item1, item)
         console.log(item1)
         break
       }

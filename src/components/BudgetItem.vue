@@ -40,10 +40,10 @@
           </label>
         </div>
         <!---Strategy goes here-->
-        <fixed-budget-item v-on:item="itemChange" v-if="isFixed()" v-bind:item="item"></fixed-budget-item>
-        <percentage-budget-item v-on:item="itemChange" v-if="isPercentage()" v-bind:item="item"></percentage-budget-item>
+        <fixed-budget-item v-on:item="itemChange" v-if="isFixed" v-bind:item="item"></fixed-budget-item>
+        <percentage-budget-item v-on:item="itemChange" v-if="isPercentage" v-bind:item="item"></percentage-budget-item>
         <div class="form-group row">
-          <button type="button" class="btn btn-primary" :disabled="!inputValid()" v-on:click="updateItem2()">
+          <button type="button" class="btn btn-primary" :disabled="!inputValid" v-on:click="updateItem2()">
             Update Item
           </button>
         </div>
@@ -62,13 +62,25 @@ export default {
       name: '',
       category: '',
       item1: undefined,
-      isInputValid: false
+      isInputValid: true
     }
   },
   mounted: function () {
     this.picked = (this.item.type === 0) ? 'fixed' : 'percent'
     this.name = this.item.name
     this.category = this.item.category
+    this.item1 = this.item
+  },
+  computed: {
+    isFixed () {
+      return this.picked === 'fixed'
+    },
+    isPercentage () {
+      return this.picked === 'percent'
+    },
+    inputValid () {
+      return this.isInputValid && (this.name.length > 0)
+    }
   },
   methods: {
     ...mapActions([
@@ -77,12 +89,6 @@ export default {
     toggleEdit () {
       this.editMode = !this.editMode
     },
-    isFixed () {
-      return this.picked === 'fixed'
-    },
-    isPercentage () {
-      return this.picked === 'percent'
-    },
     itemChange (item, isValid) {
       this.isInputValid = isValid
       this.item1 = item
@@ -90,9 +96,6 @@ export default {
     updateItem2 () {
       const newItem = Object.assign({}, this.item1, { name: this.name, category: this.category, id: this.item.id })
       this.updateItem(newItem)
-    },
-    inputValid () {
-      return this.isInputValid && (this.name.length > 0)
     }
   },
   name: 'budget-item'
