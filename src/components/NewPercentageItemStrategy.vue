@@ -27,6 +27,18 @@ export default {
       selectedItem: undefined
     }
   },
+  mounted: function () {
+    if (this.item) {
+      if (this.item.percentage) {
+        this.percentage = this.item.percentage
+      }
+      if (this.item.calculationId !== undefined) {
+        this.selectedItem = this.item.calculationId
+        console.log(this.selectedItem)
+      }
+    }
+  },
+  props: ['item'],
   methods: {
     onAmountChange () {
       // Tell the parent if the change is valid

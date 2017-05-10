@@ -14,6 +14,14 @@ export default {
       amount: 0.0
     }
   },
+  mounted: function () {
+    if (this.item) {
+      if (this.item.amount) {
+        this.amount = this.item.amount
+      }
+    }
+  },
+  props: ['item'],
   methods: {
     onAmountChange () {
       // Tell the parent if the change is valid

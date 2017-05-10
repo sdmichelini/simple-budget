@@ -13,13 +13,13 @@
         <div class="form-group row">
           <label for="expense-name-input" class="col-2 col-form-label">Name</label>
           <div class="col-10">
-            <input class="form-control" type="text" id="expense-name-input">
+            <input class="form-control" type="text" id="expense-name-input" v-model="name">
           </div>
         </div>
         <div class='form-group row'>
           <label for="expense-category-input" class="col-2 col-form-label">Category</label>
           <div class="col-10">
-          <select class="form-control">
+          <select class="form-control" v-model="category">
             <option v-for="option in $store.state.categories" v-bind:value="option">
             {{ option }}
             </option>
@@ -40,10 +40,10 @@
           </label>
         </div>
         <!---Strategy goes here-->
-        <fixed-budget-item v-if="isFixed()"></fixed-budget-item>
-        <percentage-budget-item v-if="isPercentage()"></percentage-budget-item>
+        <fixed-budget-item v-on:item="itemChange" v-if="isFixed()" v-bind:item="item"></fixed-budget-item>
+        <percentage-budget-item v-on:item="itemChange" v-if="isPercentage()" v-bind:item="item"></percentage-budget-item>
         <div class="form-group row">
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" :disabled="!inputValid()" v-on:click="updateItem2()">
             Update Item
           </button>
         </div>
@@ -51,14 +51,29 @@
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
+  props: ['item'],
   data: () => {
     return {
       editMode: false,
-      picked: ''
+      picked: '',
+      name: '',
+      category: '',
+      item1: undefined,
+      isInputValid: false
     }
   },
+  mounted: function () {
+    this.picked = (this.item.type === 0) ? 'fixed' : 'percent'
+    this.name = this.item.name
+    this.category = this.item.category
+  },
   methods: {
+    ...mapActions([
+      'updateItem'
+    ]),
     toggleEdit () {
       this.editMode = !this.editMode
     },
@@ -67,10 +82,20 @@ export default {
     },
     isPercentage () {
       return this.picked === 'percent'
+    },
+    itemChange (item, isValid) {
+      this.isInputValid = isValid
+      this.item1 = item
+    },
+    updateItem2 () {
+      const newItem = Object.assign({}, this.item1, { name: this.name, category: this.category, id: this.item.id })
+      this.updateItem(newItem)
+    },
+    inputValid () {
+      return this.isInputValid && (this.name.length > 0)
     }
   },
-  name: 'budget-item',
-  props: ['item']
+  name: 'budget-item'
 }
 </script>
 <style scoped>
