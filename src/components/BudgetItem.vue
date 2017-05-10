@@ -46,6 +46,9 @@
           <button type="button" class="btn btn-primary" :disabled="!inputValid" v-on:click="updateItem2()">
             Update Item
           </button>
+          <button type="button" class="btn btn-danger" v-on:click="deleteItem()">
+            Delete Item
+          </button>
         </div>
     </li>
     </div>
@@ -84,7 +87,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'updateItem'
+      'updateItem',
+      'removeItem'
     ]),
     toggleEdit () {
       this.editMode = !this.editMode
@@ -96,6 +100,10 @@ export default {
     updateItem2 () {
       const newItem = Object.assign({}, this.item1, { name: this.name, category: this.category, id: this.item.id })
       this.updateItem(newItem)
+      this.editMode = false
+    },
+    deleteItem () {
+      this.removeItem(this.item.id)
       this.editMode = false
     }
   },

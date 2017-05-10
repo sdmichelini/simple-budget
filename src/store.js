@@ -68,16 +68,22 @@ const mutations = {
     state.expenseItems.push(item)
   },
   updateItem (state, item) {
-    console.log(item)
     const allItems = state.incomeItems.concat(state.expenseItems)
     for (let item1 of allItems) {
       if (item1.id === item.id) {
-        console.log(item1)
         item1 = Object.assign(item1, item)
-        console.log(item1)
         break
       }
     }
+  },
+  removeItem (state, itemId) {
+    console.log(itemId)
+    state.incomeItems = state.incomeItems.filter(item => {
+      return item.id !== Number(itemId)
+    })
+    state.expenseItems = state.expenseItems.filter(item => {
+      return item.id !== Number(itemId)
+    })
   }
 }
 
@@ -90,6 +96,9 @@ const actions = {
   },
   updateItem ({ commit }, item) {
     commit('updateItem', item)
+  },
+  removeItem ({ commit }, itemId) {
+    commit('removeItem', itemId)
   }
 }
 
