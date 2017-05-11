@@ -65,7 +65,7 @@ export default {
       name: '',
       category: '',
       item1: undefined,
-      isInputValid: true
+      isInputValid: false
     }
   },
   mounted: function () {

@@ -20,6 +20,7 @@ export default {
         this.amount = this.item.amount
       }
     }
+    this.onAmountChange()
   },
   props: ['item'],
   methods: {
