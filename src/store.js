@@ -46,12 +46,12 @@ const state = {
   incomeItems: [
     makeGenericItem('Salary', 4000.00, 'Salary')
   ],
-  categories: [
+  categories: ([
     'Housing',
     'Savings',
     'Car',
     'Salary'
-  ]
+  ]).sort()
 }
 
 const mutations = {
@@ -84,6 +84,9 @@ const mutations = {
     state.expenseItems = state.expenseItems.filter(item => {
       return item.id !== Number(itemId)
     })
+  },
+  createCategory (state, category) {
+    state.categories = state.categories.concat(category).sort()
   }
 }
 
@@ -99,6 +102,9 @@ const actions = {
   },
   removeItem ({ commit }, itemId) {
     commit('removeItem', itemId)
+  },
+  addCategory ({ commit }, category) {
+    commit('createCategory', category)
   }
 }
 

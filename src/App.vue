@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav class="nav">
-      <a class="nav-link" href="#">Budget</a>
-      <a class="nav-link" href="#">Categories</a>
+      <router-link class="nav-link" to="/">Budget</router-link>
+      <router-link class="nav-link" to="categories">Categories</router-link>
       <a class="nav-link" href="#">Expenses</a>
     </nav>
     <div class="container">
@@ -33,8 +33,16 @@ export default {
   color: white;
 }
 
+.nav-link:visited {
+  color: white;
+}
+
 .nav-link:hover {
   color: white;
   background-color: #2E7D32;
+}
+
+.nav-link:selected {
+  color: white;
 }
 </style>
