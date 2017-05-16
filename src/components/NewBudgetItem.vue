@@ -16,8 +16,8 @@
       <label for="expense-category-input" class="col-2 col-form-label">Category</label>
       <div class="col-10">
       <select v-model="selected" class="form-control">
-        <option v-for="option in $store.state.categories" v-bind:value="option">
-        {{ option }}
+        <option v-for="option in $store.state.categories" v-bind:value="option.name">
+        {{ option.name }}
         </option>
       </select>
       </div>

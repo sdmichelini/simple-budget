@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 let nextId = 0
+let nextCategoryId = 0
 
 function makeGenericItem (name, amount, category) {
   return {name: name, amount: amount, category: category, type: 0, id: nextId++}
@@ -37,6 +38,16 @@ function getAmountForItemR (item, allItems, visitedIds) {
   }
 }
 
+function compareCategory (a, b) {
+  if (a.name < b.name) {
+    return -1
+  } else if (a.name > b.name) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
 const state = {
   expenseItems: [
     makeGenericItem('Apartment', 1400.00, 'Housing'),
@@ -47,11 +58,11 @@ const state = {
     makeGenericItem('Salary', 4000.00, 'Salary')
   ],
   categories: ([
-    'Housing',
-    'Savings',
-    'Car',
-    'Salary'
-  ]).sort()
+    { name: 'Housing', id: nextCategoryId++ },
+    { name: 'Savings', id: nextCategoryId++ },
+    { name: 'Car', id: nextCategoryId++ },
+    { name: 'Salary', id: nextCategoryId++ }
+  ]).sort(compareCategory)
 }
 
 const mutations = {
@@ -86,7 +97,9 @@ const mutations = {
     })
   },
   createCategory (state, category) {
-    state.categories = state.categories.concat(category).sort()
+    state.categories = state.categories
+      .concat({name: category, id: nextCategoryId++})
+      .sort(compareCategory)
   }
 }
 

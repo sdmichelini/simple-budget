@@ -2,7 +2,7 @@
 <div>
   <h1>Categories</h1>
   <ul>
-    <li v-for="category in $store.state.categories">{{ category }}</li>
+    <li v-for="category in $store.state.categories">{{ category.name }}</li>
   </ul>
   <h3>Create New Category</h3>
   <div class="form-group row">
